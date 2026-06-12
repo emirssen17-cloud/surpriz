@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Görev Başlatıldı</title>
+
+<style>
+body{
+    margin:0;
+    font-family:system-ui,-apple-system,sans-serif;
+    background:#111827;
+    color:white;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.card{
+    width:min(90%,500px);
+    background:#1f2937;
+    padding:32px;
+    border-radius:24px;
+    text-align:center;
+    box-shadow:0 0 30px rgba(0,0,0,.3);
+}
+
+h1{
+    margin-top:0;
+}
+
+p{
+    line-height:1.7;
+    color:#d1d5db;
+}
+
+button{
+    border:none;
+    background:#ec4899;
+    color:white;
+    padding:14px 24px;
+    border-radius:12px;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+.option{
+    display:block;
+    width:100%;
+    margin:10px 0;
+}
+
+.countdown{
+    font-size:64px;
+    font-weight:bold;
+    margin:20px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="card" id="app"></div>
+
+<script>
+
+const screens = [
+
+{
+title:"👀 Dikkat",
+text:`Bu akşam senin için küçük bir şey hazırladım.
+
+Ama hemen ulaşmak yok.
+
+Görevi kabul ediyor musun?`,
+button:"Kabul Ediyorum"
+},
+
+{
+title:"📍 İlk Kontrol",
+text:`Şu an eve dönüyor musun?`,
+options:[
+"Evet",
+"Yaklaştım",
+"Meraktan çatlıyorum"
+]
+},
+
+{
+title:"🎯 Görev 1",
+text:`Eve geldiğinde odana doğrudan gitme.
+
+Önce bu görevi tamamla.
+
+Hazır olduğunda devam et.`,
+button:"Hazırım"
+},
+
+{
+title:"🧠 Görev 2",
+text:`Son birkaç dakika içinde beni kaç kez merak ettin?`,
+options:[
+"1-5",
+"5-10",
+"Sayamadım"
+]
+},
+
+{
+title:"❤️ Görev 3",
+text:`Bu sorunun tek bir doğru cevabı var.
+
+Seni kim düşündü ve bu siteyi hazırladı?`,
+options:[
+"Şans eseri oluştu",
+"Evren",
+"Emir Serhat Sen ❤️"
+]
+},
+
+{
+title:"🏆 Tebrikler",
+text:`Tüm görevleri başarıyla tamamladın.
+
+Bu noktadan sonra yapman gereken tek şey var.`,
+button:"Devam Et"
+},
+
+{
+title:"✨ Son Talimat",
+text:`Bu sayfayı kapat.
+
+Ve odana git.
+
+Başka talimat yok. ❤️`
+}
+
+];
+
+let current = 0;
+
+function render(){
+
+const app = document.getElementById("app");
+const screen = screens[current];
+
+let html = `<h1>${screen.title}</h1><p>${screen.text.replace(/\n/g,"<br><br>")}</p>`;
+
+if(screen.options){
+screen.options.forEach(opt=>{
+html += `<button class="option" onclick="next()">${opt}</button>`;
+});
+}
+
+if(screen.button){
+html += `<button onclick="next()">${screen.button}</button>`;
+}
+
+app.innerHTML = html;
+}
+
+function next(){
+
+current++;
+
+if(current === 5){
+
+document.getElementById("app").innerHTML = `
+<h1>⏳ Kontrol Ediliyor...</h1>
+<div class="countdown" id="count">5</div>
+`;
+
+let n = 5;
+
+const interval = setInterval(()=>{
+n--;
+document.getElementById("count").innerText = n;
+
+if(n===0){
+clearInterval(interval);
+render();
+}
+},1000);
+
+return;
+}
+
+render();
+}
+
+render();
+
+</script>
+
+</body>
+</html>
